@@ -10,6 +10,14 @@ CONFIGURACION = ALMACENAMIENTO / 'configuracion.txt'
 
 
 def iniciar_archivos():
+    """
+        Crea el directorio 'almacenamiento' y los archivos CSV/TXT de datos si no existen.
+
+        Inicializa 'productos.csv' y 'ventas.csv' con sus encabezados, y
+        'configuracion.txt' con valores predeterminados.
+
+        Depende de las constantes globales **ALMACENAMIENTO**, **PRODUCTOS**, **VENTAS**, **CONFIGURACION**.
+    """
     if not ALMACENAMIENTO.exists():
         ALMACENAMIENTO.mkdir(parents=True)
         # print(f"Directorio 'almacenamiento' creado en: {ALMACENAMIENTO}")
@@ -33,6 +41,12 @@ def iniciar_archivos():
 
 
 def leer_datos():
+    """
+        Lee datos de productos, ventas (CSV) y configuraciones (TXT).
+
+        :returns: tuple: (**DataFrame** de productos, **DataFrame** de ventas, **dict** de configuraciones).
+        :raises FileNotFoundError: Si **PRODUCTOS** o **VENTAS** no se encuentran.
+    """
     df_productos = pd.read_csv(PRODUCTOS)
     df_ventas = pd.read_csv(VENTAS)
 
@@ -48,7 +62,16 @@ def leer_datos():
     return df_productos, df_ventas, configuraciones
 
 
-def cambiar_configuracion(clave, nuevo_valor):
+def cambiar_configuracion(clave: str, nuevo_valor: int | float):
+    """
+        Actualiza el valor de una clave en el archivo de configuración.
+
+        Reescribe el archivo con los valores actualizados.
+
+        :param clave: str: Clave a modificar.
+        :param nuevo_valor: int | float: Nuevo valor.
+        :returns: tuple: (**bool**, **str**) indicando éxito y mensaje.
+    """
     _, _, configuraciones = leer_datos()
 
     if clave in configuraciones:
@@ -63,6 +86,13 @@ def cambiar_configuracion(clave, nuevo_valor):
     return True, "Valor actualizado correctamente."
 
 def resetear_configuracion():
+    """
+        Restablece el archivo de configuración a valores predeterminados.
+
+        Sobrescribe **CONFIGURACION** con un conjunto fijo de claves/valores.
+
+        :returns: tuple: (**bool**, **str**) indicando éxito y mensaje.
+    """
     configuraciones_predeterminadas = {
         'NIVEL_MINIMO_STOCK': '10',
         'TEST': '100',
@@ -76,6 +106,14 @@ def resetear_configuracion():
     return True, "Configuración restablecida a los valores predeterminados."
 
 def resetear_datos():
+    """
+        Elimina y recrea los archivos de datos (**PRODUCTOS**, **VENTAS**).
+
+        Los restablece a un estado inicial con solo sus encabezados.
+        El archivo de configuración no se ve afectado.
+
+        :returns: tuple: (**bool**, **str**) indicando éxito y mensaje.
+    """
     if PRODUCTOS.exists():
         PRODUCTOS.unlink()
     if VENTAS.exists():

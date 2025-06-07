@@ -34,9 +34,9 @@ def iniciar_archivos():
 
     if not CONFIGURACION.exists():
         with open(CONFIGURACION, 'w') as f:
-            f.write("NIVEL_MINIMO_STOCK_GLOBAL=10\n")
-            f.write("TEST=10\n")
-            f.write("TEST2=10\n")
+            f.write("NIVEL_MINIMO_STOCK_GLOBAL=100\n")
+            f.write("NOMBRE_NEGOCIO=Tienda GestiOne\n")
+            f.write("TIPO_MONEDA=C$\n")
         # print(f"Archivo de configuración creado en: {CONFIGURACION}")
 
 
@@ -62,16 +62,18 @@ def leer_datos():
     return df_productos, df_ventas, configuraciones
 
 
-def cambiar_configuracion(clave: str, nuevo_valor: int | float):
+def cambiar_configuracion(indice: int, nuevo_valor: int | str):
     """
         Actualiza el valor de una clave en el archivo de configuración.
 
         Reescribe el archivo con los valores actualizados.
 
-        :param clave: str: Clave a modificar.
-        :param nuevo_valor: int | float: Nuevo valor.
+        :param indice: int: Indice para la clave a modificar.
+        :param nuevo_valor: int | str: Nuevo valor de la clave, este puede ser entero o cadena.
         :returns: tuple: (**bool**, **str**) indicando éxito y mensaje.
     """
+    claves = ['NIVEL_MINIMO_STOCK_GLOBAL', 'NOMBRE_NEGOCIO', 'TIPO_MONEDA']
+    clave = claves[indice - 1]
     _, _, configuraciones = leer_datos()
 
     if clave in configuraciones:
@@ -87,23 +89,18 @@ def cambiar_configuracion(clave: str, nuevo_valor: int | float):
 
 def resetear_configuracion():
     """
-        Restablece el archivo de configuración a valores predeterminados.
+        Elimina y recrea el archivo **CONFIGURACION**.
 
-        Sobrescribe **CONFIGURACION** con un conjunto fijo de claves/valores.
+        Lo restablece a un estado inicial con los valores predeterminados.
+        Los archivos de datos (**PRODUCTOS**, **VENTAS**) no se ven afectados.
 
         :returns: tuple: (**bool**, **str**) indicando éxito y mensaje.
     """
-    configuraciones_predeterminadas = {
-        'NIVEL_MINIMO_STOCK': '10',
-        'TEST': '100',
-        'TEST2': 'False'
-    }
+    if CONFIGURACION.exists():
+        CONFIGURACION.unlink()
 
-    with open(CONFIGURACION, mode='w') as archivo:
-        for clave, valor in configuraciones_predeterminadas.items():
-            archivo.write(f"{clave}={valor}\n")
-
-    return True, "Configuración restablecida a los valores predeterminados."
+    iniciar_archivos()
+    return True, "Configuración fue restablecida."
 
 def resetear_datos():
     """
@@ -120,5 +117,4 @@ def resetear_datos():
         VENTAS.unlink()
 
     iniciar_archivos()
-
     return True, "Archivos reseteados correctamente."

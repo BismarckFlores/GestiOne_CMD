@@ -1,8 +1,6 @@
 import os
-from colorama import Fore, init
+from colorama import Fore
 
-
-init(autoreset=True)
 
 def limpiar_consola():
     """

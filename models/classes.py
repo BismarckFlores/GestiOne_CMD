@@ -11,13 +11,6 @@ class Producto:
     cantidad: int
     stock_minimo: int = None
 
-    def actualizar_stock(self, cantidad: int) -> bool:
-        nuevo_stock = self.cantidad + cantidad
-        if nuevo_stock < 0:
-            raise ValueError("No hay stock suficiente")
-        self.cantidad = nuevo_stock
-        return True
-
 
 @dataclass
 class Ventas:

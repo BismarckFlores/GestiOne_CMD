@@ -16,7 +16,7 @@ def pausa():
     """
     input("\n🔄 Presiona Enter para continuar...")
 
-def crear_banner(titulo: str, color = Fore.CYAN, sub_titulo: str = None, color_sub_titulo=None):
+def crear_banner(titulo: str, color = Fore.CYAN, sub_titulo: str = None, color_sub_titulo = None):
     """
         Crea un banner decorativo para la consola.
 
@@ -49,7 +49,7 @@ def crear_banner(titulo: str, color = Fore.CYAN, sub_titulo: str = None, color_s
 
     return banner
 
-def mostrar_menu(titulo: str, opciones: list, color=Fore.CYAN, sub_titulo: str = None, color_sub_titulo=None):
+def mostrar_menu(titulo: str, opciones: list, color = Fore.CYAN, sub_titulo: str = None, color_sub_titulo = None):
     """
         Muestra un menú en la consola con un banner y una lista numerada de opciones.
 
@@ -87,6 +87,14 @@ def mensaje_error(mensaje: str):
         :param mensaje: str: El mensaje a mostrar.
     """
     print(Fore.RED + f"\n❌ {mensaje}\n")
+
+def mensaje_info(mensaje: str):
+    """
+        Muestra un mensaje informativo en color amarillo.
+
+        :param mensaje: str: El mensaje a mostrar.
+    """
+    print(Fore.YELLOW + f"\nℹ️ {mensaje}\n")
 
 def reportar_resultado(mensaje: str, exito: bool = True):
     """

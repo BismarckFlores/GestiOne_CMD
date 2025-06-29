@@ -1,3 +1,9 @@
+"""
+    Módulo de menú de ventas para GestiOne.
+
+    Permite gestionar las operaciones relacionadas con ventas: ver, agregar, filtrar, reportar y analizar productos más vendidos.
+    Utiliza utilidades y gestor de datos para la interacción y persistencia.
+"""
 import main.utilidades as util
 
 

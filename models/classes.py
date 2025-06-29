@@ -1,3 +1,9 @@
+"""
+    Módulo de definición de clases de datos para GestiOne.
+
+    Contiene las clases principales para la representación de productos, ítems de venta y ventas.
+    Estas clases son utilizadas para la gestión de inventario y el registro de ventas en la aplicación.
+"""
 import datetime
 from dataclasses import dataclass
 from typing import Optional

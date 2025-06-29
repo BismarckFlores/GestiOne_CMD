@@ -1,4 +1,6 @@
-## 🌟 **GestiOne_CMD: Sistema de Gestión para Inventario y Ventas** 🌟
+# ✨🌟✨ **GestiOne_CMD: Sistema de Gestión para Inventario y Ventas** ✨🌟✨
+
+---
 
 ### Descripción
 
@@ -59,13 +61,42 @@ El objetivo de **GestiOne** es proporcionar una herramienta sencilla, eficaz y a
 
 ---
 ### 📦 **Instalación y Uso**
-```bash
-git clone <repository>
-cd <repository name>
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-pip install -r requerimientos.txt
-```
-```bash
-python app.py
-```
+
+1. **Clona el repositorio:**
+   ```bash
+   git clone <URL-del-repositorio>
+   cd <nombre-del-repositorio>
+   ```
+2. **Crea y activa un entorno virtual (recomendado):**
+   - En Windows:
+     ```bash
+     python -m venv .venv
+     .venv\Scripts\activate
+     ```
+   - En Linux/Mac:
+     ```bash
+     python3 -m venv .venv
+     source .venv/bin/activate
+     ```
+3. **Instala las dependencias:**
+   ```bash
+   pip install -r requerimientos.txt
+   ```
+4. **Ejecuta la aplicación:**
+   ```bash
+   python app.py
+   ```
+
+¡Listo! Ahora puedes comenzar a gestionar tu inventario y ventas desde la terminal.
+
+---
+
+**📖 Documentación Técnica Detallada ([DOC.md](./DOC.md))**
+
+<p align="center">
+  <a href="https://deepwiki.com/BismarckFlores/GestiOne_CMD">
+    <img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki">
+  </a>
+</p>
+
+---

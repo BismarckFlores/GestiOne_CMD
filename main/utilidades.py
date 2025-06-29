@@ -111,7 +111,6 @@ def reportar_resultado(mensaje: str, exito: bool = True):
 def verificar_entrada(mensaje_entrada: str, tipo_dato: type[int | float], error: str = "Entrada inválida."):
     """
         Solicita al usuario un número (entero o flotante) y valida la entrada.
-
         Continúa solicitando hasta que se ingrese un número válido del tipo especificado.
 
         :param mensaje_entrada: str: El mensaje que se muestra al usuario para solicitar la entrada.

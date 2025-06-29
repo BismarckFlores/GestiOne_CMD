@@ -1,13 +1,13 @@
 from colorama import init
-from pruevas.GestiOne_v2_2.dao.configuracion import Configuracion
-from pruevas.GestiOne_v2_2.main.menu_principal import MenuPrincipal
+from dao.gestor_datos import GestorDatos
+from main.menu_principal import MenuPrincipal
 
 
 class App:
     def __init__(self):
         init(autoreset=True)
-        self.config = Configuracion()
-        self.menu = MenuPrincipal(self.config)
+        self.gestor_datos = GestorDatos()
+        self.menu = MenuPrincipal(self.gestor_datos)
 
     def run(self):
         try:

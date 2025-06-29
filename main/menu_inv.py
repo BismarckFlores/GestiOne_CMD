@@ -1,3 +1,10 @@
+"""
+    Módulo de menú de inventario para GestiOne.
+
+    Permite gestionar el inventario: ver, agregar, editar, restockear y eliminar productos.
+    Utiliza utilidades y gestor de datos para la interacción y persistencia.
+"""
+
 import main.utilidades as util
 
 

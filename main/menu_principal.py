@@ -1,3 +1,9 @@
+"""
+    Módulo de menú principal de GestiOne.
+
+    Gestiona la navegación principal de la aplicación, permitiendo el acceso a los módulos de inventario, ventas y configuración.
+    Incluye menús interactivos y opciones avanzadas para administradores.
+"""
 import main.utilidades as util
 from tabulate import tabulate as tb
 from main.menu_inv import MenuInv
@@ -86,8 +92,6 @@ class MenuPrincipal:
                             else:
                                 util.mensaje_error(f"Error al agregar el usuario '{new_username}'. Verifique los datos e intente de nuevo.")
                                 util.pausa()
-                    elif opcion_pu == 3:
-                        break
                     elif opcion_pu == 4 and self.is_admin:
                         users = sorted(self.gestor_datos.leer_datos()['usuarios'], key=lambda x: not x['is_admin'])
                         page_size = config['PAGE_SIZE']
@@ -204,7 +208,7 @@ class MenuPrincipal:
                                 util.mensaje_info("✅ Borrado de productos y ventas cancelado. Tus datos están a salvo.")
                                 util.pausa()
                                 continue
-                            self.gestor_datos.borrar_datos('Datos')
+                            self.gestor_datos.borrar_datos('datos')
                             util.mensaje_exito("🗑️ Todos los productos y registros de ventas han sido eliminados permanentemente.")
                             util.pausa()
                         case 2:
@@ -213,7 +217,7 @@ class MenuPrincipal:
                                 util.mensaje_info("✅ Restablecimiento de configuración cancelado.")
                                 util.pausa()
                                 continue
-                            self.gestor_datos.borrar_datos('Configuración')
+                            self.gestor_datos.borrar_datos('configuración')
                             util.mensaje_exito("✅ La configuración ha sido restablecida a sus valores predeterminados.")
                             util.pausa()
                         case 3:

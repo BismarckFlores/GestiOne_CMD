@@ -1,3 +1,10 @@
+"""
+    Módulo principal de la aplicación GestiOne.
+
+    Este módulo inicializa la aplicación, gestiona el ciclo de vida principal y el flujo de autenticación de usuarios.
+    Permite el acceso a las funcionalidades de inventario, ventas y configuración a través de menús interactivos.
+    Utiliza los módulos de utilidades, gestor de datos y menús para la interacción con el usuario y la gestión de datos.
+"""
 from colorama import init
 from time import sleep as sp
 from main.utilidades import *

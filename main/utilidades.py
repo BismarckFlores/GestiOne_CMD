@@ -1,5 +1,6 @@
 import os
 from colorama import Fore
+from pwinput import pwinput as pw
 
 
 def limpiar_consola():
@@ -133,3 +134,19 @@ def verificar_entrada(mensaje_entrada: str, tipo_dato: type[int | float], error:
                 else:
                     error = "Entrada inválida. Debe ser un número decimal."
             mensaje_error(error)
+
+def pedir_contrasenia(mensaje: str = "Ingrese su contraseña: ", ocultar: bool = True):
+    """
+        Solicita al usuario que ingrese una contraseña.
+
+        :param mensaje: str: El mensaje que se muestra al usuario para solicitar la contraseña. (Por defecto: "Ingrese su contraseña: ").
+        :param ocultar: bool: Si es True, oculta la entrada del usuario. (Por defecto: True).
+        :returns: str: La contraseña ingresada por el usuario.
+    """
+    if not mensaje.endswith(": "):
+        mensaje += ": "
+
+    if ocultar:
+        return pw(mensaje, '*')
+    else:
+        return input(mensaje).strip()

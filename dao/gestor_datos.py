@@ -1,4 +1,5 @@
 import pickle as pkl
+import hashlib as hl
 from collections import defaultdict
 from typing import Literal
 from models.classes import *
@@ -13,14 +14,15 @@ class GestorDatos:
     def iniciar_archivos(self):
         self.STORAGE_PATH.mkdir(exist_ok=True)
         self.data_file = self.STORAGE_PATH / "almacenamiento.bin"
-        self.productos_file = self.STORAGE_PATH / "productos.bin"
-        self.ventas_file = self.STORAGE_PATH / "ventas.bin"
-        self.config_file = self.STORAGE_PATH / "configuracion.bin"
 
         if not self.data_file.exists():
             data = {
                 "productos": [],
                 "ventas": [],
+                "usuarios": [
+                    {"username": "Admin", "password": self.hash_password('Admin123!'), "is_admin": True},
+                    {"username": "User", "password": self.hash_password('User123!'), "is_admin": False}
+                ],
                 "config": {
                     "STOCK_MIN_GLOBAL": 200,
                     "PAGE_SIZE": 5,
@@ -136,6 +138,68 @@ class GestorDatos:
         self.guardar_datos(data)
 
 
+    # Usuarios
+    def listar_usuarios(self) -> list[dict[str, str]]:
+        return [user["username"] for user in self.leer_datos()["usuarios"]]
+
+    @staticmethod
+    def hash_password(password: str):
+        return hl.sha256(password.encode("utf-8")).hexdigest()
+
+    def verificar_usuario(self, username: str, password: str) -> bool:
+        users = self.leer_datos()["usuarios"]
+        password_hash = self.hash_password(password)
+        return any(user["username"] == username and user["password"] == password_hash for user in users)
+
+    def is_admin(self, username: str):
+        users = self.leer_datos()["usuarios"]
+        return any(user["username"] == username and user['is_admin'] for user in users)
+
+    def ver_usuario(self, username: str):
+        users = self.leer_datos()["usuarios"]
+        for user in users:
+            if user["username"] == username:
+                return {
+                    "username": user["username"],
+                    "is_admin": user["is_admin"]
+                }
+        return None
+
+    def agregar_usuario(self, username: str, password: str, current_user: str, is_admin: bool = False):
+        data = self.leer_datos()
+        users = data["usuarios"]
+        if not self.is_admin(current_user):
+            return False
+        if any(user["username"] == username for user in users):
+            return False
+        users.append({'username': username, 'password': self.hash_password(password), 'is_admin': is_admin})
+        self.guardar_datos(data)
+        return True
+
+    def cambiar_contrasenia(self, current_user: str, old_password: str, new_password: str):
+        data = self.leer_datos()
+        users = data["usuarios"]
+        old_password_hash = self.hash_password(old_password)
+        new_password_hash = self.hash_password(new_password)
+
+        for user in users:
+            if user["username"] == current_user and user["password"] == old_password_hash:
+                user["password"] = new_password_hash
+                self.guardar_datos(data)
+                return True
+        return False
+
+    def eliminar_usuario(self, username: str, current_user: str):
+        data = self.leer_datos()
+        users = data["usuarios"]
+        if not self.is_admin(current_user):
+            return False
+        data["usuarios"] = [user for user in users if user["username"] != username]
+        self.guardar_datos(data)
+        return True
+
+
+    # Helpers
     def borrar_datos(self, tipo: Literal["Todo", "Datos", "Configuración"] = 'Todo'):
         data = self.leer_datos()
         if tipo in ['Datos', 'Todo']:

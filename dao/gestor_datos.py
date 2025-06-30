@@ -150,9 +150,10 @@ class GestorDatos:
             :returns: tuple: Encabezados y lista de ventas.
         """
         ventas = self.leer_datos()["ventas"]
+        moneda = self.leer_config()["MONEDA"]
         header = ["ID Venta", "Fecha", "ID Producto","Producto",
-                  "Cantidad", f"Precio Unitario ({self.leer_config()["MONEDA"]})",
-                  f"Subtotal Producto ({self.leer_config()["MONEDA"]})"]
+                  "Cantidad", f"Precio Unitario ({moneda})",
+                  f"Subtotal Producto ({moneda})"]
         return header, ventas
 
     def filtrar_ventas_por_fecha(self, fecha, tipo: Literal["dia", "mes", "anio"]):
@@ -371,12 +372,13 @@ class GestorDatos:
             :param total_periodo: float: Total de ventas en el periodo.
         """
         import csv
+        moneda = self.leer_config()["MONEDA"]
         ruta_archivo = self.STORAGE_PATH / nombre_archivo
         with open(ruta_archivo, 'w', newline='', encoding='utf-8') as f:
             writer = csv.writer(f)
             writer.writerow(["Reporte de Ventas", tipo, periodo])
             writer.writerow(["Total Tickets", total_tickets])
-            writer.writerow(["Total Ventas", f"{total_periodo:,.2f} {self.leer_config()["MONEDA"]}"])
+            writer.writerow(["Total Ventas", f"{total_periodo:,.2f} {moneda}"])
             writer.writerow([])
             writer.writerow(["ID Producto", "Nombre Producto", "Cantidad Vendida"])
             for id_producto, nombre, cantidad in productos_vendidos:

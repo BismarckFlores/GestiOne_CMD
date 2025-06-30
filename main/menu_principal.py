@@ -177,18 +177,21 @@ class MenuPrincipal:
                                                            int, "Opción inválida. Intente de nuevo.")
                     match opcion_editar:
                         case 1:
-                            config['NOMBRE_NEGOCIO'] = input(f"📝 Nuevo nombre del negocio [{config["NOMBRE_NEGOCIO"]}]: ").strip() or config['NOMBRE_NEGOCIO']
+                            nombre_negocio = config['NOMBRE_NEGOCIO']
+                            config['NOMBRE_NEGOCIO'] = input(f"📝 Nuevo nombre del negocio [{nombre_negocio}]: ").strip() or nombre_negocio
                             self.gestor_datos.actualizar_config(config)
                             util.mensaje_exito("🎉 Nombre del negocio actualizado correctamente.")
                             util.pausa()
                         case 2:
-                            config['MONEDA'] = input(f"💱 Nueva moneda (ej. $, C$, €) [{config["MONEDA"]}]: ").strip() or config['MONEDA']
+                            moneda = config['MONEDA']
+                            config['MONEDA'] = input(f"💱 Nueva moneda (ej. $, C$, €) [{moneda}]: ").strip() or moneda
                             self.gestor_datos.actualizar_config(config)
                             util.mensaje_exito("Moneda actualizada correctamente.")
                             util.pausa()
                         case 3:
-                            config['STOCK_MIN_GLOBAL'] = util.verificar_entrada(f"📦 Nuevo stock mínimo global [{config["STOCK_MIN_GLOBAL"]}]",
-                                                                                int) or config['STOCK_MIN_GLOBAL']
+                            stock_min_global = config['STOCK_MIN_GLOBAL']
+                            config['STOCK_MIN_GLOBAL'] = util.verificar_entrada(f"📦 Nuevo stock mínimo global [{stock_min_global}]",
+                                                                                int) or stock_min_global
                             if config['STOCK_MIN_GLOBAL'] <= 0:
                                 util.mensaje_error("El stock mínimo global debe ser un número entero positivo.")
                                 continue
@@ -196,8 +199,9 @@ class MenuPrincipal:
                             util.mensaje_exito("Configuración actualizada correctamente.")
                             util.pausa()
                         case 4:
-                            config['PAGE_SIZE'] = util.verificar_entrada(f"📃 Nuevo tamaño de página [{config["PAGE_SIZE"]}]",
-                                                                         int) or config['PAGE_SIZE']
+                            page_size = config['PAGE_SIZE']
+                            config['PAGE_SIZE'] = util.verificar_entrada(f"📃 Nuevo tamaño de página [{page_size}]",
+                                                                         int) or page_size
                             if config['PAGE_SIZE'] <= 0:
                                 util.mensaje_error("El tamaño de página debe ser un número entero positivo.")
                                 continue

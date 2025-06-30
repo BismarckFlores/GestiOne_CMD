@@ -1,7 +1,7 @@
 from datetime import datetime as dt
-import pruevas.GestiOne_v2_2.main.utilidades as util
+import main.utilidades as util
 from tabulate import tabulate as tb
-from pruevas.GestiOne_v2_2.models.classes import ItemVenta, Venta, Producto
+from models.classes import ItemVenta, Venta, Producto
 
 
 class MenuVentas:
@@ -204,93 +204,6 @@ class MenuVentas:
         util.pausa()
 
 
-    def reporte_ventas(self):
-        util.limpiar_consola()
-        print(util.mostrar_menu("Reporte de Ventas", ['☀️ Dia', '📆 Mes', '📈 Año', '🔙 Volver'], util.Fore.LIGHTYELLOW_EX))
-
-        while True:
-            opcion = util.verificar_entrada("Seleccione una opción", int, "Opción inválida. Intente de nuevo.")
-
-            if opcion == 4:
-                return
-
-            if opcion == 1:
-                fecha_input = input("Ingrese la fecha (DD-MM-YYYY): ").strip()
-                ventas = self.gestor_datos.filtrar_ventas_por_fecha(fecha_input, 'dia')
-                tipo = 'Dia'
-                break
-            elif opcion == 2:
-                fecha_input = input("Ingrese el mes (MM-YYYY): ").strip()
-                ventas = self.gestor_datos.filtrar_ventas_por_fecha(fecha_input, 'mes')
-                tipo = 'Mes'
-                break
-            elif opcion == 3:
-                fecha_input = input("Ingrese el año (YYYY): ").strip()
-                ventas = self.gestor_datos.filtrar_ventas_por_fecha(fecha_input, 'anio')
-                tipo = 'Año'
-                break
-            else:
-                util.mensaje_error("Opción inválida. Intente de nuevo con un valor del 1 al 4.")
-                util.pausa()
-
-        if not ventas:
-            util.mensaje_info(f"No se encontraron ventas para la fecha {fecha_input}.")
-            util.pausa()
-            return
-
-        moneda = self.gestor_datos.leer_config()["MONEDA"]
-        total_tickets, productos_vendidos, total_periodo = self.gestor_datos.resumen_ventas(ventas)
-
-        if productos_vendidos:
-            print(util.crear_banner(f"Reporte de Ventas - {tipo} {fecha_input}", util.Fore.LIGHTYELLOW_EX))
-            print(f"Total de tickets: {total_tickets}")
-            print(f"Total de ventas: {total_periodo} {moneda}")
-            print(tb(productos_vendidos, headers=["ID Producto", "Producto", "Cantidad Vendida"], tablefmt='fancy_grid'))
-            util.pausa()
-        else:
-            print(util.crear_banner(f"Reporte de Ventas - {tipo} {fecha_input}", util.Fore.LIGHTYELLOW_EX))
-            print("No se encontraron ventas en este periodo.")
-            util.pausa()
-            return
-
-        exportar = input("¿Desea exportar el reporte a un archivo? (s/n): ").strip().lower()
-        if exportar == 's':
-            nombre_archivo = f'reporte_ventas_{tipo}_{fecha_input.replace("-", "_")}.csv'
-            self.gestor_datos.exportar_reporte(
-                nombre_archivo, tipo, fecha_input, total_tickets, productos_vendidos, total_periodo
-            )
-            util.mensaje_exito(f'Reporte exportado como {nombre_archivo} a storage.')
-            util.pausa()
-            return
-        util.mensaje_info('Reporte no exportado.')
-        util.pausa()
-
-
-    def ver_mas_vendidos(self):
-        util.limpiar_consola()
-        print(util.crear_banner("Productos más vendidos", util.Fore.LIGHTYELLOW_EX,
-                                f'Top 5 productos más vendidos'))
-
-        data = self.gestor_datos.leer_ventas()[1]
-        if not data:
-            util.mensaje_info("No hay ventas registrados.")
-            util.pausa()
-            return
-
-        productos_vendidos = self.gestor_datos.resumen_ventas(data)[1]
-        if not productos_vendidos:
-            util.mensaje_info("No se han vendido productos.")
-            util.pausa()
-            return
-
-        productos_vendidos.sort(key = lambda x: x[2], reverse = True)
-        top = productos_vendidos[:5]
-        top = [[i + 1, *row] for i, row in enumerate(top)]
-
-        print(tb(top, headers=["Top", "ID Producto", "Producto", "Cantidad Vendida"], tablefmt='fancy_grid'))
-        util.pausa()
-
-
     def menu(self):
         while True:
             util.limpiar_consola()
@@ -304,9 +217,9 @@ class MenuVentas:
                 case 2:
                     self.agregar_venta()
                 case 3:
-                    self.reporte_ventas()
+                    pass
                 case 4:
-                    self.ver_mas_vendidos()
+                    pass
                 case 5:
                     break
                 case _:

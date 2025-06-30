@@ -73,7 +73,8 @@ class GestorDatos:
         """
         productos = self.leer_datos()["productos"]
         productos.sort(key=lambda p: p.id)
-        header = ["ID", "Nombre", f"Precio ({self.leer_config()["MONEDA"]})", "Stock", "Stock Mínimo"]
+        moneda = self.leer_config()["MONEDA"]
+        header = ["ID", "Nombre", f"Precio ({moneda})", "Stock", "Stock Mínimo"]
         return header, [p.to_list() for p in productos]
 
     def existe_id_producto(self, id_buscar):

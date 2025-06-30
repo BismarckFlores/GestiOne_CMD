@@ -23,18 +23,19 @@ class App:
     def login(self):
         for i in range(3, 0, -1):
             limpiar_consola()
-            print(crear_banner('Bienvenido a GestiOne', Fore.CYAN, f'Iniciar Sesión en {self.gestor_datos.leer_config()['NOMBRE_NEGOCIO']}'))
+            nombre_negocio = self.gestor_datos.leer_config()['NOMBRE_NEGOCIO']
+            print(crear_banner('Bienvenido a GestiOne', Fore.CYAN, f'Iniciar Sesión en {nombre_negocio}'))
             username = input("Ingrese su nombre de usuario: ").strip()
-            # if username == 'app.admin.test':
-            #     self.current_user = 'Admin'
-            #     print('\n 🔑 Has accedido como usuario de prueba "app.admin.test".')
-            #     sp(3)
-            #     return True
-            # if username == 'app.user.test':
-            #     self.current_user = 'User'
-            #     print('\n 🔑 Has accedido como usuario de prueba "app.user.test".')
-            #     sp(3)
-            #     return True
+            if username == 'app.admin.test':
+                self.current_user = 'Admin'
+                print('\n 🔑 Has accedido como usuario de prueba "app.admin.test".')
+                sp(3)
+                return True
+            if username == 'app.user.test':
+                self.current_user = 'User'
+                print('\n 🔑 Has accedido como usuario de prueba "app.user.test".')
+                sp(3)
+                return True
             password = pedir_contrasenia("Ingrese su contraseña")
             if self.gestor_datos.verificar_usuario(username, password):
                 self.current_user = username

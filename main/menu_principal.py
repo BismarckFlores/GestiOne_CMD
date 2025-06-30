@@ -61,7 +61,10 @@ class MenuPrincipal:
                         while True:
                             util.limpiar_consola()
                             print(util.crear_banner("Cambiar Contraseña", util.Fore.LIGHTMAGENTA_EX))
-                            old_password = util.pedir_contrasenia("Ingrese su contraseña actual: ")
+                            old_password = util.pedir_contrasenia("Ingrese su contraseña actual (0 para cancelar): ")
+                            if old_password == '0':
+                                util.mensaje_info("Operación de cambio de contraseña cancelada.")
+                                break
                             new_password = util.pedir_contrasenia("Ingrese su nueva contraseña: ")
                             confirm_password = util.pedir_contrasenia("Confirme su nueva contraseña: ")
 
@@ -79,7 +82,10 @@ class MenuPrincipal:
                         while True:
                             util.limpiar_consola()
                             print(util.crear_banner("Agregar Usuario", util.Fore.LIGHTMAGENTA_EX))
-                            new_username = input("Ingrese el nombre de usuario del nuevo usuario: ").strip()
+                            new_username = input("Ingrese el nombre de usuario del nuevo usuario (0 para cancelar): ").strip()
+                            if new_username == '0':
+                                util.mensaje_info("Operación de agregar usuario cancelada.")
+                                break
                             if not new_username:
                                 util.mensaje_error("El nombre de usuario no puede estar vacío. Intente de nuevo.")
                                 continue
@@ -92,8 +98,13 @@ class MenuPrincipal:
                             else:
                                 util.mensaje_error(f"Error al agregar el usuario '{new_username}'. Verifique los datos e intente de nuevo.")
                                 util.pausa()
+                    elif opcion_pu == 3 and not self.is_admin:
+                        break
                     elif opcion_pu == 4 and self.is_admin:
                         users = sorted(self.gestor_datos.leer_datos()['usuarios'], key=lambda x: not x['is_admin'])
+
+
+
                         page_size = config['PAGE_SIZE']
                         total = len(users)
                         max_page = (total - 1) // page_size
@@ -141,6 +152,12 @@ class MenuPrincipal:
                                     username = users[user_num - 1]['username']
                                     self.gestor_datos.eliminar_usuario(username, self.user)
                                     util.mensaje_exito(f"Usuario '{username}' eliminado exitosamente.")
+                                    util.pausa()
+                                    break
+                                else:
+                                    util.mensaje_error(f"Error: Ingrese un número entre 1 y {total}")
+                                    util.pausa()
+                                    continue
                             elif nav_options == 'x':
                                 break
                             else:
